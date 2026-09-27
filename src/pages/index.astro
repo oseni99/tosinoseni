@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../components/ArrowUpRight.astro';
 import Layout from '../layouts/Layout.astro';
 import StackSnake from '../components/StackSnake.astro';
 import { profile } from '../data/profile';
@@ -32,18 +33,18 @@ const heading = 'mb-5 text-[12px] font-medium tracking-[0.14em]';
     <h2 id="projects" class={heading}>Selected projects</h2>
     <ul class="space-y-4">
       {profile.projects.map(project => <li>
-        <h3 class="text-[13px] font-medium sm:text-sm"><a href={project.url} class="decoration-ink/30 underline-offset-4 hover:underline">{project.name} <span aria-hidden="true">↗</span></a></h3>
+        <h3 class="text-[13px] font-medium sm:text-sm"><a href={project.url} class="decoration-ink/30 underline-offset-4 hover:underline">{project.name} <span aria-hidden="true"><ArrowUpRight /></span></a></h3>
         <p class="mt-1 text-xs leading-5 text-muted">{project.description}</p>
       </li>)}
     </ul>
-    <a href={profile.github} class="mt-5 inline-block text-xs text-muted decoration-ink/30 underline-offset-4 hover:text-ink hover:underline">Browse my GitHub <span aria-hidden="true">↗</span></a>
+    <a href={profile.github} class="mt-5 inline-block text-xs text-muted decoration-ink/30 underline-offset-4 hover:text-ink hover:underline">Browse my GitHub <span aria-hidden="true"><ArrowUpRight /></span></a>
   </section>
   <section aria-labelledby="hackathons" class="mt-7">
     <h2 id="hackathons" class={heading}>Hackathons [5x winner]</h2>
     <ul class="space-y-6">
       {profile.hackathons.map(event => <li>
-        <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-          <h3 class="text-[13px] font-medium sm:text-sm">{'url' in event ? <a href={event.url} class="decoration-ink/30 underline-offset-4 hover:underline">{event.name} <span aria-hidden="true">↗</span></a> : event.name}</h3>
+        <div class="flex flex-col items-start gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-x-4">
+          <h3 class="text-[13px] font-medium sm:text-sm">{'url' in event ? <a href={event.url} class="decoration-ink/30 underline-offset-4 hover:underline">{event.name} <span aria-hidden="true"><ArrowUpRight /></span></a> : event.name}</h3>
           <span class="text-[11px] text-muted">{event.result}</span>
         </div>
         <p class="mt-1 text-xs leading-5 text-muted">{event.description}</p>

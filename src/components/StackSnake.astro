@@ -1,11 +1,12 @@
 ---
+import ArrowUpRight from './ArrowUpRight.astro';
 interface Props { showLauncher?: boolean }
 const { showLauncher = true } = Astro.props;
 ---
-{showLauncher && <button type="button" id="snake-open" hidden class="border border-ink/20 px-3.5 py-2 text-xs text-ink transition-colors hover:border-ink hover:bg-ink hover:text-paper">Play Stack Snake <span aria-hidden="true" class="ml-1">↗</span></button>}
+{showLauncher && <button type="button" id="snake-open" hidden class="border border-ink/20 px-3.5 py-2 text-xs text-ink transition-colors hover:border-ink hover:bg-ink hover:text-paper">Play Stack Snake <span aria-hidden="true" class="ml-1"><ArrowUpRight /></span></button>}
 
 <button type="button" id="snake-teaser" hidden class="snake-teaser" aria-label="Play Stack Snake">
-  <span class="snake-teaser-label">Play Stack Snake ↗</span>
+  <span class="snake-teaser-label">Play Stack Snake <ArrowUpRight /></span>
   <span class="snake-teaser-body" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
 </button>
 

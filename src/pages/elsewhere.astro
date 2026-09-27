@@ -1,9 +1,10 @@
 ---
+import ArrowUpRight from '../components/ArrowUpRight.astro';
 import Layout from '../layouts/Layout.astro';
 import StackSnake from '../components/StackSnake.astro';
 import { profile } from '../data/profile';
 ---
-<Layout title="Elsewhere — Tosin Oseni" elsewhere>
+<Layout title="Résumé & Interests — Tosin Oseni" description="Explore Tosin Oseni’s résumé, coding practice, personal interests, and Stack Snake browser game." elsewhere>
   <section aria-labelledby="elsewhere-title">
     <p class="mb-5 text-[10px] font-medium uppercase tracking-[0.22em] text-muted">A little more from me</p>
     <h1 id="elsewhere-title" class="font-display text-[clamp(3.5rem,8vw,5.3rem)] leading-[1.08] tracking-[-0.035em]">Elsewhere.</h1>
@@ -11,11 +12,11 @@ import { profile } from '../data/profile';
     <div class="mt-12 divide-y divide-ink/10">
       <a href="/tosinoseni.pdf" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between gap-5 py-6">
         <div><h2 class="text-sm">Résumé</h2><p class="mt-1.5 text-xs leading-5 text-muted">A little more about my experience · PDF</p></div>
-        <span aria-hidden="true" class="text-muted transition-transform duration-200 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5">↗</span>
+        <span aria-hidden="true" class="text-muted transition-transform duration-200 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5"><ArrowUpRight /></span>
       </a>
       <a href={profile.leetcode} class="group flex items-center justify-between gap-5 py-6">
         <div><h2 class="text-sm">LeetCode</h2><p class="mt-1.5 text-xs leading-5 text-muted">My coding practice and problem solving.</p></div>
-        <span aria-hidden="true" class="text-muted transition-transform duration-200 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5">↗</span>
+        <span aria-hidden="true" class="text-muted transition-transform duration-200 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5"><ArrowUpRight /></span>
       </a>
       <section aria-labelledby="gaming-title" class="py-6">
         <h2 id="gaming-title" class="text-sm">Video games</h2>
