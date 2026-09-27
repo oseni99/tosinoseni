@@ -1,0 +1,19 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/dm-sans';
+@import '@fontsource/instrument-serif/latin-400.css';
+
+@theme {
+  --font-sans: 'DM Sans Variable', sans-serif;
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --color-ink: #253039;
+  --color-muted: #60656b;
+  --color-paper: #faf9f6;
+}
+
+@layer base {
+  html { color-scheme: light; }
+  body { @apply m-0 bg-paper font-sans text-ink antialiased; }
+  a, button { -webkit-tap-highlight-color: transparent; }
+  a, button { @apply focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-ink; }
+  ::selection { background: #d5e4e6; color: #253039; }
+}

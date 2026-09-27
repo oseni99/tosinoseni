@@ -1,0 +1,45 @@
+---
+import '../styles/global.css';
+import Water from '../components/Water.astro';
+import { profile } from '../data/profile';
+interface Props { title?: string; elsewhere?: boolean }
+const { title = 'Tosin Oseni — A little corner of the internet', elsewhere = false } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Oluwatosin Oseni. Software engineer, computer science student, and curious human. A few things about me and what I’m building." />
+    <meta name="theme-color" content="#faf9f6" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content="A little corner of the internet for what I’m doing, what I’ve made, and everything in between." />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body class="relative isolate min-h-svh">
+    <Water />
+    <a href="#main" class="fixed left-6 top-5 z-50 -translate-y-24 bg-paper px-4 py-2 focus:translate-y-0">Skip to content</a>
+    <header class="mx-auto flex max-w-5xl items-center justify-between px-7 py-8 sm:px-12 sm:py-10">
+      <a href="/" aria-label="Tosin Oseni, home" class="text-[11px] font-medium uppercase tracking-[0.22em] transition-opacity hover:opacity-60">Tosin Oseni</a>
+      <nav aria-label="Main navigation" class="flex gap-7 text-xs">
+        <a href="/" aria-current={!elsewhere ? 'page' : undefined} class:list={['transition-colors hover:text-ink', elsewhere ? 'text-muted' : 'text-ink']}>home</a>
+        <a href="/elsewhere/" aria-current={elsewhere ? 'page' : undefined} class:list={['transition-colors hover:text-ink', elsewhere ? 'text-ink' : 'text-muted']}>elsewhere <span aria-hidden="true" class="ml-1">↗</span></a>
+      </nav>
+    </header>
+    <main id="main" class="mx-auto w-full max-w-[640px] px-7 pb-16 pt-14 sm:px-10 sm:pt-20" tabindex="-1">
+      <slot />
+      <footer class="mt-16 sm:mt-20">
+        {!elsewhere && <div class="flex flex-wrap gap-x-7 gap-y-4 text-xs text-muted">
+          <a href={`mailto:${profile.email}`} class="transition-colors hover:text-ink">Email <span aria-hidden="true" class="ml-1">↗</span></a>
+          <a href={profile.github} class="transition-colors hover:text-ink">GitHub <span aria-hidden="true" class="ml-1">↗</span></a>
+          <a href={profile.linkedin} class="transition-colors hover:text-ink">LinkedIn <span aria-hidden="true" class="ml-1">↗</span></a>
+        </div>}
+        <div class="mt-6 flex flex-wrap items-center justify-between gap-5 text-[11px] text-muted">
+          <p>Always a work in progress.</p>
+        </div>
+      </footer>
+    </main>
+  </body>
+</html>

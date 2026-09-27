@@ -1,0 +1,38 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StackSnake from '../components/StackSnake.astro';
+import { profile } from '../data/profile';
+---
+<Layout title="Elsewhere — Tosin Oseni" elsewhere>
+  <section aria-labelledby="elsewhere-title">
+    <p class="mb-5 text-[10px] font-medium uppercase tracking-[0.22em] text-muted">A little more from me</p>
+    <h1 id="elsewhere-title" class="font-display text-[clamp(3.5rem,8vw,5.3rem)] leading-[1.08] tracking-[-0.035em]">Elsewhere.</h1>
+    <p class="mt-6 max-w-[440px] text-base leading-7 text-muted">My résumé, coding practice, games, and a place for notes along the way.</p>
+    <div class="mt-12 divide-y divide-ink/10">
+      <a href="/tosinoseni.pdf" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between gap-5 py-6">
+        <div><h2 class="text-sm">Résumé</h2><p class="mt-1.5 text-xs leading-5 text-muted">A little more about my experience · PDF</p></div>
+        <span aria-hidden="true" class="text-muted transition-transform duration-200 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5">↗</span>
+      </a>
+      <a href={profile.leetcode} class="group flex items-center justify-between gap-5 py-6">
+        <div><h2 class="text-sm">LeetCode</h2><p class="mt-1.5 text-xs leading-5 text-muted">My coding practice and problem solving.</p></div>
+        <span aria-hidden="true" class="text-muted transition-transform duration-200 motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5">↗</span>
+      </a>
+      <section aria-labelledby="gaming-title" class="py-6">
+        <h2 id="gaming-title" class="text-sm">Video games</h2>
+        <p class="mt-1.5 text-xs leading-5 text-muted">I play video games too. Hit me up!</p>
+        <p class="mt-3 text-xs text-muted">PSN <span class="ml-2 font-medium text-ink">{profile.psn}</span></p>
+      </section>
+      <section aria-labelledby="notes-title" class="py-6">
+        <h2 id="notes-title" class="text-sm">Notes</h2>
+        <p class="mt-1.5 text-xs leading-5 text-muted">Things I’m learning, ideas I’m exploring, and thoughts in progress.</p>
+        <p class="mt-5 text-xs text-muted">Nothing here yet. Soon.</p>
+      </section>
+      <section aria-labelledby="snake-section-title" class="py-6">
+        <h2 id="snake-section-title" class="text-sm">A little break</h2>
+        <p class="mt-1.5 text-xs leading-5 text-muted">Collect technologies and build your stack.</p>
+        <div class="mt-4"><StackSnake /></div>
+      </section>
+    </div>
+    <a href="/" class="mt-10 inline-block text-xs text-muted transition-colors hover:text-ink"><span aria-hidden="true" class="mr-2">←</span>Back to my little corner</a>
+  </section>
+</Layout>
