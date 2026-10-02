@@ -10,7 +10,10 @@ test('home, Elsewhere, and unchanged résumé are reachable', async ({ page, req
   await expect(page.getByText('SWE', { exact: false })).toHaveCount(1);
   await expect(page.getByRole('link', { name: 'MakeItGreen' })).toHaveAttribute('href', 'https://makeitgreen.dev');
   await expect(page.getByRole('link', { name: '2025 Mastercard x AUC Data Challenge' })).toHaveAttribute('href', 'https://datascience.aucenter.edu/annual-data-challenge-2025/');
-  await expect(page.getByText('1st place · $17,500 prize')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Apple x Propel' })).toBeVisible();
+  await expect(page.getByText('$17,500 prize')).toBeVisible();
+  await expect(page.getByText('$20,000 prize')).toBeVisible();
+  await expect(page.getByText('50,000 miles')).toBeVisible();
   await page.getByText('View 2 photos').click();
   await expect(page.getByRole('img', { name: /Tosin holding the Team Mesh award check/ })).toBeVisible();
   await expect(page.getByRole('img', { name: /Team Mesh and organizers/ })).toBeVisible();
@@ -18,22 +21,34 @@ test('home, Elsewhere, and unchanged résumé are reachable', async ({ page, req
   await page.getByRole('link', { name: 'elsewhere' }).click();
   await expect(page.getByRole('heading', { name: 'Elsewhere.' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Notes', exact: true })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Email' })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Email' })).toHaveAttribute('href', 'mailto:tosineoseni@gmail.com');
+  await expect(page.getByRole('link', { name: 'GitHub' })).toBeVisible();
   const pdf = await request.get('/tosinoseni.pdf');
   expect(pdf.ok()).toBeTruthy();
   expect((await pdf.body()).subarray(0, 4).toString()).toBe('%PDF');
   expect(errors).toEqual([]);
 });
 
-test('water respects reduced motion without a visible control', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' });
+
+test('home shows company icons, an email line, and share metadata', async ({ page, request }) => {
   await page.goto('/');
-  await expect(page.locator('#water')).toHaveAttribute('data-motion', 'paused');
-  await expect(page.locator('#motion-toggle')).toHaveCount(0);
-  await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await expect(page.locator('#water')).toHaveAttribute('data-motion', 'playing');
-  await page.getByRole('link', { name: 'elsewhere' }).click();
-  await expect(page.locator('#water')).toHaveAttribute('data-motion', 'playing');
+  await expect(page.locator('section[aria-labelledby="experience"] img')).toHaveCount(3);
+  await expect(page.getByRole('link', { name: 'tosineoseni@gmail.com' })).toHaveAttribute('href', 'mailto:tosineoseni@gmail.com');
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://tosinoseni.com/og.png');
+  const person = JSON.parse(await page.locator('script[type="application/ld+json"]').innerHTML());
+  expect(person['@type']).toBe('Person');
+  expect(person.sameAs).toHaveLength(2);
+  const image = await request.get('/og.png');
+  expect(image.ok()).toBeTruthy();
+});
+
+test('unknown pages show a noindex 404 with a way home', async ({ page }) => {
+  const response = await page.goto('/does-not-exist/');
+  expect(response?.status()).toBe(404);
+  await expect(page.getByRole('heading', { name: 'Lost.' })).toBeVisible();
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
+  await page.getByRole('link', { name: '← Back home' }).click();
+  await expect(page).toHaveURL('/');
 });
 
 test('mobile and desktop layouts have no horizontal overflow', async ({ page }) => {
@@ -58,7 +73,7 @@ test('content and links work without JavaScript', async ({ browser }) => {
   const page = await context.newPage();
   await page.goto('http://127.0.0.1:4321/');
   await expect(page.getByRole('heading', { name: 'Along the way' })).toBeVisible();
-  await expect(page.locator('#motion-toggle')).toBeHidden();
+
   await expect(page.getByRole('button', { name: 'Play Stack Snake' })).toBeHidden();
   await page.getByRole('link', { name: 'elsewhere' }).click();
   await expect(page.getByRole('link', { name: /Résumé/ })).toBeVisible();
@@ -98,31 +113,12 @@ test('Stack Snake fits a narrow touch viewport', async ({ browser }) => {
   await context.close();
 });
 
-test('a one-time snake crosses after a minute of visible browsing', async ({ page }) => {
-  await page.clock.install();
-  await page.goto('/');
-  const teaser = page.locator('#snake-teaser');
-  await expect(teaser).toBeHidden();
-  await page.clock.fastForward(59_000);
-  await expect(teaser).toBeHidden();
-  await page.clock.fastForward(1_000);
-  await expect(teaser).toBeVisible();
-  await page.waitForTimeout(1_500);
-  await expect(teaser).toBeInViewport();
-  await page.screenshot({ path: 'test-results/snake-teaser.png' });
-  await teaser.evaluate(button => (button as HTMLButtonElement).click());
-  await expect(page.getByRole('dialog', { name: 'Stack Snake.' })).toBeVisible();
-  await page.reload();
-  await page.clock.fastForward(60_000);
-  await expect(teaser).toBeHidden();
-});
-
-test('the timed snake respects reduced motion', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' });
+test('the home page has no game or teaser, even after a minute', async ({ page }) => {
   await page.clock.install();
   await page.goto('/');
   await page.clock.fastForward(60_000);
-  await expect(page.locator('#snake-teaser')).toBeHidden();
+  await expect(page.locator('#snake-teaser')).toHaveCount(0);
+  await expect(page.locator('#stack-snake')).toHaveCount(0);
   await page.goto('/elsewhere/');
   await expect(page.getByRole('button', { name: 'Play Stack Snake' })).toBeVisible();
 });
@@ -163,19 +159,4 @@ test('an unchanged direction does not consume the next turn', async ({ page }) =
   await page.keyboard.press('ArrowUp');
   await page.clock.runFor(180);
   await expect(page.locator('#snake-board .snake-cell').nth(4 * 18 + 7)).toHaveClass(/snake-head/);
-});
-
-test('the homepage teaser can be reached and activated with the keyboard', async ({ page }) => {
-  await page.clock.install({ time: 0 });
-  await page.clock.pauseAt(1000);
-  await page.goto('/');
-  await page.clock.fastForward(60_000);
-  const teaser = page.locator('#snake-teaser');
-  await page.getByRole('link', { name: 'elsewhere', exact: true }).focus();
-  await page.keyboard.press('Tab');
-  await expect(teaser).toBeFocused();
-  await expect(teaser).toBeInViewport();
-  await expect(teaser).toHaveCSS('animation-name', 'none');
-  await page.keyboard.press('Enter');
-  await expect(page.getByRole('dialog', { name: 'Stack Snake.' })).toBeVisible();
 });

@@ -24,7 +24,6 @@ const keyDirections: Record<string, Direction> = {
 
 const dialog = document.querySelector<HTMLDialogElement>('#stack-snake');
 const openButton = document.querySelector<HTMLButtonElement>('#snake-open');
-const teaser = document.querySelector<HTMLButtonElement>('#snake-teaser');
 const closeButton = document.querySelector<HTMLButtonElement>('#snake-close');
 const board = document.querySelector<HTMLElement>('#snake-board');
 const overlay = document.querySelector<HTMLElement>('#snake-overlay');
@@ -37,47 +36,8 @@ const bestLabel = document.querySelector<HTMLElement>('#snake-best');
 const pickupLabel = document.querySelector<HTMLElement>('#snake-pickup');
 const collectedLabel = document.querySelector<HTMLElement>('#snake-collected');
 
-if (dialog && teaser && closeButton && board && overlay && overlayTitle && overlayDetail && action && projects && scoreLabel && bestLabel && pickupLabel && collectedLabel) {
+if (dialog && closeButton && board && overlay && overlayTitle && overlayDetail && action && projects && scoreLabel && bestLabel && pickupLabel && collectedLabel) {
   if (openButton) openButton.hidden = false;
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let teaserSeen = false;
-  try { teaserSeen = sessionStorage.getItem('stack-snake-teaser-seen') === '1'; } catch { /* Storage may be unavailable. */ }
-  let teaserRemaining = 60_000;
-  let teaserStartedAt: number | undefined;
-  let teaserTimer: number | undefined;
-
-  function markTeaserSeen() {
-    teaserSeen = true;
-    window.clearTimeout(teaserTimer);
-    teaserStartedAt = undefined;
-    teaser!.hidden = true;
-    try { sessionStorage.setItem('stack-snake-teaser-seen', '1'); } catch { /* Storage may be unavailable. */ }
-  }
-
-  function pauseTeaserClock() {
-    if (teaserStartedAt !== undefined) teaserRemaining = Math.max(0, teaserRemaining - (performance.now() - teaserStartedAt));
-    teaserStartedAt = undefined;
-    window.clearTimeout(teaserTimer);
-  }
-
-  function startTeaserClock() {
-    if (teaserSeen || teaserStartedAt !== undefined || document.hidden || reducedMotion.matches || dialog!.open) return;
-    teaserStartedAt = performance.now();
-    teaserTimer = window.setTimeout(() => {
-      markTeaserSeen();
-      teaser!.hidden = false;
-    }, teaserRemaining);
-  }
-
-  teaser.addEventListener('animationend', event => {
-    if (event.target === teaser) teaser.hidden = true;
-  });
-  teaser.addEventListener('click', openGame);
-  reducedMotion.addEventListener('change', () => {
-    if (reducedMotion.matches) { pauseTeaserClock(); teaser.hidden = true; }
-    else startTeaserClock();
-  });
-  startTeaserClock();
   const cells = Array.from({ length: SIZE * SIZE }, () => {
     const cell = document.createElement('span');
     cell.className = 'snake-cell';
@@ -213,7 +173,7 @@ if (dialog && teaser && closeButton && board && overlay && overlayTitle && overl
     turnedThisTick = true;
   }
 
-  function openGame() { markTeaserSeen(); reset(); dialog!.showModal(); action!.focus(); }
+  function openGame() { reset(); dialog!.showModal(); action!.focus(); }
   openButton?.addEventListener('click', openGame);
   closeButton.addEventListener('click', () => dialog.close());
   dialog.addEventListener('close', () => { pause(); stopTimer(); openButton?.focus(); });
@@ -235,8 +195,7 @@ if (dialog && teaser && closeButton && board && overlay && overlayTitle && overl
     }
   });
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) { pause(); pauseTeaserClock(); teaser.hidden = true; }
-    else startTeaserClock();
+    if (document.hidden) pause();
   });
   window.addEventListener('blur', pause);
   reset();

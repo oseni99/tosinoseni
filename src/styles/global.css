@@ -5,15 +5,15 @@
 @theme {
   --font-sans: 'DM Sans Variable', sans-serif;
   --font-display: 'Instrument Serif', Georgia, serif;
-  --color-ink: #253039;
-  --color-muted: #60656b;
-  --color-paper: #faf9f6;
+  --color-ink: #e8e6e1;
+  --color-muted: #8d9297;
+  --color-paper: #0f1214;
 }
 
 @layer base {
-  html { color-scheme: light; }
+  html { color-scheme: dark; }
   body { @apply m-0 bg-paper font-sans text-ink antialiased; }
   a, button { -webkit-tap-highlight-color: transparent; }
   a, button { @apply focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-ink; }
-  ::selection { background: #d5e4e6; color: #253039; }
+  ::selection { background: #2a3a3d; color: #e8e6e1; }
 }

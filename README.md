@@ -1,14 +1,13 @@
 # Tosin Oseni — Personal Website
 
-A personal portfolio sharing my work, experience, projects, and interests. Built with Astro, TypeScript, and Tailwind CSS, the site combines a focused reading layout with an animated water background and a small browser game.
+A personal portfolio sharing my work, experience, projects, and interests. Built with Astro, TypeScript, and Tailwind CSS, the site is a minimal, text-first reading layout with a small browser game.
 
 ## Features
 
 - **Home:** introduction, current interests, professional experience, selected projects, and hackathon results with expandable photos.
 - **Elsewhere:** résumé, coding practice, PlayStation details, a space for future notes, and Stack Snake.
-- **Responsive layout:** mobile and desktop layouts with compact typography and locally hosted fonts.
-- **Water background:** a custom WebGL shader that respects reduced-motion preferences and pauses when the tab is hidden, with a static CSS fallback when WebGL is unavailable.
-- **Progressive enhancement:** core content, navigation, résumé access, and photo disclosure work without JavaScript. Animation and the game enhance the experience when JavaScript is available.
+- **Responsive layout:** mobile and desktop layouts with compact typography and locally hosted fonts on a plain background.
+- **Progressive enhancement:** core content, navigation, résumé access, and photo disclosure work without JavaScript. The game enhances the experience when JavaScript is available.
 
 The site generates static files and requires no database, CMS, API keys, or backend service. No analytics are configured.
 
@@ -17,9 +16,9 @@ The site generates static files and requires no database, CMS, API keys, or back
 | Technology | Purpose |
 | --- | --- |
 | Astro | Static pages, shared layouts, and components |
-| TypeScript | Content data, game logic, and background rendering |
+| TypeScript | Content data and game logic |
 | Tailwind CSS | Responsive styles and theme tokens |
-| WebGL | Animated water effect without an animation library |
+
 | Playwright | Browser tests and layout screenshots |
 | Fontsource | Locally hosted DM Sans and Instrument Serif fonts |
 
@@ -59,12 +58,12 @@ public/
   images/                Hackathon photos
   tosinoseni.pdf         Downloadable résumé
 src/
-  components/            Water background and Stack Snake UI
+  components/            Stack Snake UI
   data/profile.ts        Personal copy, experience, projects, and links
   layouts/Layout.astro   Shared document, navigation, metadata, and footer
   pages/index.astro      Home page
   pages/elsewhere.astro  Résumé, interests, notes, and game access
-  scripts/               Water rendering and game behavior
+  scripts/               Game behavior
   styles/global.css     Fonts, theme tokens, and global styles
 tests/site.spec.ts       Browser coverage and screenshot capture
 astro.config.mjs        Static output and Tailwind configuration
@@ -87,11 +86,11 @@ Files in `public/` are served from the site root. For example, `public/tosinosen
 
 ## Stack Snake
 
-Open the game using **Play Stack Snake** on Elsewhere. A clickable snake also crosses the screen after 60 seconds of visible browsing on either page, once per browser tab session when session storage is available. The delay applies in both development and production. Hidden tabs pause the countdown; navigating to another page starts a new countdown if the teaser has not appeared yet.
+Open the game using **Play Stack Snake** on Elsewhere. It does not appear anywhere else on the site.
 
 Collect technologies while avoiding walls and the snake’s body. Use the arrow keys or WASD to steer, Space to pause or resume, and the on-screen arrows on touch devices. The game pauses when the window loses focus or the tab becomes hidden.
 
-Reduced-motion preferences suppress the crossing animation; the Elsewhere button remains available. The best score is stored locally in the browser when storage is available. Game logic lives in [src/scripts/stack-snake.ts](src/scripts/stack-snake.ts), and the interface and animation styles live in [src/components/StackSnake.astro](src/components/StackSnake.astro).
+The best score is stored locally in the browser when storage is available. Game logic lives in [src/scripts/stack-snake.ts](src/scripts/stack-snake.ts), and the interface styles live in [src/components/StackSnake.astro](src/components/StackSnake.astro).
 
 ## Testing
 
@@ -102,7 +101,7 @@ npx playwright install chromium
 npm test
 ```
 
-Playwright starts the local development server automatically and reuses an existing server outside CI. Tests cover navigation, key content and links, résumé access, reduced-motion behavior, content without JavaScript, mobile overflow, and the game’s controls and timed teaser. Layout checks include viewport widths of 320, 390, and 1440 pixels.
+Playwright starts the local development server automatically and reuses an existing server outside CI. Tests cover navigation, key content and links, résumé access, content without JavaScript, mobile overflow, and the game’s controls. Layout checks include viewport widths of 320, 390, and 1440 pixels.
 
 Screenshots and failure artifacts are written to `test-results/`, which is excluded from version control. The configuration also supports `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` for environments that need to supply an existing browser executable; the Playwright-managed Chromium installation is the default.
 

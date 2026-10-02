@@ -21,17 +21,17 @@ export const profile = {
   ],
   hackathons: [
     {
-      name: 'Propel Hackathon',
-      description: 'Built Mesh to help emergency units coordinate.',
-      result: '1st place · $17,500 prize',
+      name: 'Apple x Propel',
+
+      won: '$17,500 prize',
       photos: [
         { src: '/images/propel-mesh-award.webp', alt: 'Tosin holding the Team Mesh award check at the Propel Future of Tech Innovation Challenge.' },
         { src: '/images/propel-mesh-team.webp', alt: 'Team Mesh and organizers holding the award check at the Propel challenge.' },
       ],
     },
-    { name: 'HBCU Battle of the Brains', description: 'Led development of WatchParty.', result: '2nd of 40 schools' },
-    { name: '2025 Mastercard x AUC Data Challenge', description: 'Competed with Talladega College’s Tornadoes team.', result: '3rd place · $5,800 prize', url: 'https://datascience.aucenter.edu/annual-data-challenge-2025/' },
-    { name: 'American Airlines Hackathon', description: 'Built Spark, a financial app for students.', result: '3rd place' },
+    { name: 'HBCU Battle of the Brains', won: '$20,000 prize' },
+    { name: '2025 Mastercard x AUC Data Challenge', won: '$5,800 prize', url: 'https://datascience.aucenter.edu/annual-data-challenge-2025/' },
+    { name: 'American Airlines Hackathon', won: '50,000 miles' },
   ],
   // Project links are taken directly from the supplied résumé.
   projects: [

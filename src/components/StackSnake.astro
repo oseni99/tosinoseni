@@ -1,14 +1,4 @@
----
-import ArrowUpRight from './ArrowUpRight.astro';
-interface Props { showLauncher?: boolean }
-const { showLauncher = true } = Astro.props;
----
-{showLauncher && <button type="button" id="snake-open" hidden class="border border-ink/20 px-3.5 py-2 text-xs text-ink transition-colors hover:border-ink hover:bg-ink hover:text-paper">Play Stack Snake <span aria-hidden="true" class="ml-1"><ArrowUpRight /></span></button>}
-
-<button type="button" id="snake-teaser" hidden class="snake-teaser" aria-label="Play Stack Snake">
-  <span class="snake-teaser-label">Play Stack Snake <ArrowUpRight /></span>
-  <span class="snake-teaser-body" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
-</button>
+<button type="button" id="snake-open" hidden class="border border-ink/20 px-3.5 py-2 text-xs text-ink transition-colors hover:border-ink hover:bg-ink hover:text-paper">Play Stack Snake</button>
 
 <dialog id="stack-snake" aria-labelledby="snake-title" aria-describedby="snake-help" class="snake-dialog">
   <div class="snake-panel">
@@ -61,55 +51,26 @@ const { showLauncher = true } = Astro.props;
 </script>
 
 <style>
-  .snake-teaser { position: fixed; left: 0; bottom: clamp(36px, 10svh, 110px); z-index: 40; display: flex; align-items: center; gap: 12px; width: max-content; padding: 16px 8px; cursor: pointer; will-change: transform; animation: snake-cross 10s linear forwards; }
-  .snake-teaser[hidden] { display: none; }
-  .snake-teaser-label { padding: 7px 10px; border: 1px solid rgb(37 48 57 / 20%); background: #faf9f6; box-shadow: 0 3px 12px rgb(37 48 57 / 12%); color: #253039; font-size: 11px; white-space: nowrap; animation: snake-label-float 1.6s ease-in-out infinite; }
-  .snake-teaser-body { display: flex; align-items: center; gap: 1px; }
-  .snake-teaser-body i { display: block; width: 14px; height: 14px; border-radius: 4px; background: #647d80; animation: snake-slither 1.2s ease-in-out infinite; }
-  .snake-teaser-body i:nth-child(1) { width: 6px; height: 6px; animation-delay: -0.7s; }
-  .snake-teaser-body i:nth-child(2) { width: 9px; height: 9px; animation-delay: -0.6s; }
-  .snake-teaser-body i:nth-child(3) { width: 12px; height: 12px; animation-delay: -0.5s; }
-  .snake-teaser-body i:nth-child(4) { animation-delay: -0.4s; }
-  .snake-teaser-body i:nth-child(5) { animation-delay: -0.3s; }
-  .snake-teaser-body i:nth-child(6) { animation-delay: -0.2s; }
-  .snake-teaser-body i:nth-child(7) { animation-delay: -0.1s; }
-  .snake-teaser-body i:last-child { position: relative; width: 19px; height: 17px; border-radius: 5px 8px 8px 5px; background: #253039; }
-  .snake-teaser-body i:last-child::after { position: absolute; top: 3px; right: 4px; width: 3px; height: 3px; border-radius: 50%; background: #faf9f6; box-shadow: 0 8px #faf9f6; content: ''; }
-  .snake-teaser:hover, .snake-teaser:focus-visible { animation-play-state: paused; }
-  .snake-teaser:focus-visible { animation: none; transform: translate3d(calc(50vw - 50%), 0, 0); }
-  @keyframes snake-cross {
-    0% { transform: translate3d(-100%, 0, 0); }
-    30% { transform: translate3d(calc(45vw - 50%), 0, 0); animation-timing-function: ease-in-out; }
-    70% { transform: translate3d(calc(55vw - 50%), 0, 0); animation-timing-function: ease-in; }
-    100% { transform: translate3d(100vw, 0, 0); }
-  }
-  @keyframes snake-slither {
-    0%, 100% { transform: translateY(-5px) rotate(-7deg); }
-    50% { transform: translateY(5px) rotate(7deg); }
-  }
-  @keyframes snake-label-float {
-    0%, 100% { transform: translateY(-2px); }
-    50% { transform: translateY(2px); }
-  }
-  .snake-dialog { position: fixed; inset: 0; width: min(420px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); margin: auto; padding: 0; overflow: auto; border: 1px solid rgb(37 48 57 / 16%); background: #faf9f6; color: #253039; box-shadow: 0 24px 80px rgb(37 48 57 / 18%); }
-  .snake-dialog::backdrop { background: rgb(37 48 57 / 38%); backdrop-filter: blur(3px); }
+
+  .snake-dialog { position: fixed; inset: 0; width: min(420px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); margin: auto; padding: 0; overflow: auto; border: 1px solid rgb(232 230 225 / 16%); background: #0f1214; color: #e8e6e1; box-shadow: 0 24px 80px rgb(0 0 0 / 60%); }
+  .snake-dialog::backdrop { background: rgb(0 0 0 / 60%); backdrop-filter: blur(3px); }
   .snake-panel { padding: 22px; }
-  .snake-close { display: grid; width: 32px; height: 32px; place-items: center; border: 1px solid rgb(37 48 57 / 18%); border-radius: 50%; font-size: 22px; line-height: 1; }
-  .snake-board-wrap { position: relative; aspect-ratio: 1; overflow: hidden; border: 1px solid rgb(37 48 57 / 15%); background: #f3f3ef; }
+  .snake-close { display: grid; width: 32px; height: 32px; place-items: center; border: 1px solid rgb(232 230 225 / 18%); border-radius: 50%; font-size: 22px; line-height: 1; }
+  .snake-board-wrap { position: relative; aspect-ratio: 1; overflow: hidden; border: 1px solid rgb(232 230 225 / 15%); background: #181c1f; }
   .snake-board { display: grid; width: 100%; height: 100%; grid-template-columns: repeat(18, minmax(0, 1fr)); grid-template-rows: repeat(18, minmax(0, 1fr)); }
-  .snake-board :global(.snake-cell) { display: grid; place-items: center; min-width: 0; min-height: 0; border-right: 1px solid rgb(37 48 57 / 9%); border-bottom: 1px solid rgb(37 48 57 / 9%); }
-  .snake-board :global(.snake-body) { background: #647d80; border-color: #f3f3ef; }
-  .snake-board :global(.snake-head) { background: #253039; border-color: #f3f3ef; }
-  .snake-board :global(.snake-food) { background: #d5e4e6; color: #253039; font-size: clamp(8px, 2.5vw, 11px); font-weight: 700; letter-spacing: -0.05em; }
-  .snake-overlay { position: absolute; inset: auto 0 0; display: flex; flex-direction: column; align-items: center; padding: 16px 12px 18px; border-top: 1px solid rgb(37 48 57 / 15%); background: rgb(250 249 246 / 98%); box-shadow: 0 -8px 24px rgb(37 48 57 / 7%); text-align: center; }
+  .snake-board :global(.snake-cell) { display: grid; place-items: center; min-width: 0; min-height: 0; border-right: 1px solid rgb(232 230 225 / 9%); border-bottom: 1px solid rgb(232 230 225 / 9%); }
+  .snake-board :global(.snake-body) { background: #7a9a9e; border-color: #181c1f; }
+  .snake-board :global(.snake-head) { background: #e8e6e1; border-color: #181c1f; }
+  .snake-board :global(.snake-food) { background: #2a3a3d; color: #e8e6e1; font-size: clamp(8px, 2.5vw, 11px); font-weight: 700; letter-spacing: -0.05em; }
+  .snake-overlay { position: absolute; inset: auto 0 0; display: flex; flex-direction: column; align-items: center; padding: 16px 12px 18px; border-top: 1px solid rgb(232 230 225 / 15%); background: rgb(15 18 20 / 98%); box-shadow: 0 -8px 24px rgb(0 0 0 / 30%); text-align: center; }
   .snake-overlay[hidden] { display: none; }
-  .snake-action { min-height: 38px; padding: 0 18px; background: #253039; color: #faf9f6; font-size: 12px; }
+  .snake-action { min-height: 38px; padding: 0 18px; background: #e8e6e1; color: #0f1214; font-size: 12px; }
   .snake-controls { display: none; flex-direction: column; align-items: center; gap: 4px; }
   .snake-touch-help { display: none; }
   .snake-controls > div { display: flex; gap: 4px; }
-  .snake-controls button { width: 48px; height: 36px; border: 1px solid rgb(37 48 57 / 22%); background: #f3f3ef; font-size: 18px; touch-action: manipulation; }
+  .snake-controls button { width: 48px; height: 36px; border: 1px solid rgb(232 230 225 / 22%); background: #181c1f; font-size: 18px; touch-action: manipulation; }
   @media (hover: none), (pointer: coarse) { .snake-controls, .snake-touch-help { display: flex; } .snake-keyboard-help { display: none; } }
-  @media (prefers-reduced-motion: reduce) { .snake-teaser { display: none; } }
+
   @media (max-width: 380px) {
     .snake-panel { padding: 16px; }
     .snake-overlay { padding: 10px 8px 12px; }
