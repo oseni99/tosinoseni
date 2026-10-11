@@ -7,7 +7,7 @@ export const profile = {
   linkedin: 'https://www.linkedin.com/in/oluwatosin-oseni',
   leetcode: 'https://leetcode.com/u/oluwatosin001/',
   psn: 'clever_ted',
-  intro: 'I’m a software geek. I love building things of my own and teaching others what I learn.',
+  intro: 'I’m a software geek. I love to teach things i know',
   about: 'A little corner of the internet for what I’m doing, what I’ve made, and everything in between.',
   lately: [
     'Learning about designing systems.',
