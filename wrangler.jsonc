@@ -1,0 +1,10 @@
+{
+  // Static site: deploy the built dist/ as assets. Having this file stops
+  // `wrangler deploy` from auto-adding the Astro SSR adapter on every build.
+  "name": "tosinoseni",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
