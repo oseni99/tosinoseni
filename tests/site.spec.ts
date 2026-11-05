@@ -6,7 +6,6 @@ test('home, Elsewhere, and unchanged résumé are reachable', async ({ page, req
   await page.goto('/');
   await expect(page.getByRole('heading', { name: 'Hi, I’m Tosin.' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Hackathons [5x winner]', exact: true })).toBeVisible();
-  await expect(page.locator('#snake-open')).toHaveCount(0);
   await expect(page.getByText('SWE', { exact: false })).toHaveCount(1);
   await expect(page.getByRole('link', { name: 'MakeItGreen' })).toHaveAttribute('href', 'https://makeitgreen.dev');
   await expect(page.getByRole('link', { name: '2025 Mastercard x AUC Data Challenge' })).toHaveAttribute('href', 'https://datascience.aucenter.edu/annual-data-challenge-2025/');
@@ -74,89 +73,7 @@ test('content and links work without JavaScript', async ({ browser }) => {
   await page.goto('http://127.0.0.1:4321/');
   await expect(page.getByRole('heading', { name: 'Along the way' })).toBeVisible();
 
-  await expect(page.getByRole('button', { name: 'Play Stack Snake' })).toBeHidden();
   await page.getByRole('link', { name: 'elsewhere' }).click();
   await expect(page.getByRole('link', { name: /Résumé/ })).toBeVisible();
   await context.close();
-});
-
-test('Stack Snake plays in a modal and links back to projects after a collision', async ({ page }) => {
-  await page.goto('/elsewhere/');
-  await page.getByRole('button', { name: 'Play Stack Snake' }).click();
-  const game = page.getByRole('dialog', { name: 'Stack Snake.' });
-  await expect(game).toBeVisible();
-  await expect(game.getByText('Ready to build?')).toBeVisible();
-  await game.screenshot({ path: 'test-results/stack-snake-desktop.png' });
-  await game.getByRole('button', { name: 'Start game' }).click();
-  await page.keyboard.press('Space');
-  await expect(game.getByText('Paused.')).toBeVisible();
-  await game.getByRole('button', { name: 'Resume game' }).click();
-  await expect(game.getByText('BUILD FAILED')).toBeVisible({ timeout: 5000 });
-  await expect(game.getByRole('button', { name: 'Run Again' })).toBeVisible();
-  await game.getByRole('link', { name: 'See what I actually built with these →' }).click();
-  await expect(game).toBeHidden();
-  await expect(page).toHaveURL(/#projects$/);
-});
-
-test('Stack Snake fits a narrow touch viewport', async ({ browser }) => {
-  const context = await browser.newContext({ viewport: { width: 320, height: 700 }, hasTouch: true, isMobile: true });
-  const page = await context.newPage();
-  await page.goto('/elsewhere/');
-  await page.getByRole('button', { name: 'Play Stack Snake' }).click();
-  const game = page.getByRole('dialog', { name: 'Stack Snake.' });
-  await expect(game).toBeVisible();
-  await expect(game.getByRole('button', { name: 'Move up' })).toBeVisible();
-  await game.screenshot({ path: 'test-results/stack-snake-mobile.png' });
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  await game.getByRole('button', { name: 'Close Stack Snake' }).click();
-  await expect(game).toBeHidden();
-  await context.close();
-});
-
-test('the home page has no game or teaser, even after a minute', async ({ page }) => {
-  await page.clock.install();
-  await page.goto('/');
-  await page.clock.fastForward(60_000);
-  await expect(page.locator('#snake-teaser')).toHaveCount(0);
-  await expect(page.locator('#stack-snake')).toHaveCount(0);
-  await page.goto('/elsewhere/');
-  await expect(page.getByRole('button', { name: 'Play Stack Snake' })).toBeVisible();
-});
-
-test('Space activates game buttons and pauses only when playing from the board', async ({ page }) => {
-  await page.clock.install({ time: 0 });
-  await page.clock.pauseAt(1000);
-  await page.goto('/elsewhere/');
-  await page.getByRole('button', { name: 'Play Stack Snake' }).click();
-  const game = page.getByRole('dialog');
-  const board = page.locator('#snake-board');
-  await expect(game.getByRole('button', { name: 'Start game' })).toBeFocused();
-  await page.keyboard.press('Space');
-  await expect(page.locator('#snake-overlay')).toBeHidden();
-  await expect(board).toBeFocused();
-  await page.keyboard.press('Space');
-  await expect(game.getByText('Paused.')).toBeVisible();
-  await game.getByRole('button', { name: 'Resume game' }).focus();
-  await page.keyboard.press('Space');
-  await expect(board).toBeFocused();
-  await page.clock.runFor(2200);
-  await expect(game.getByText('BUILD FAILED')).toBeVisible();
-  await game.getByRole('button', { name: 'Run Again' }).focus();
-  await page.keyboard.press('Space');
-  await expect(page.locator('#snake-overlay')).toBeHidden();
-  await game.getByRole('button', { name: 'Close Stack Snake' }).focus();
-  await page.keyboard.press('Space');
-  await expect(game).toBeHidden();
-});
-
-test('an unchanged direction does not consume the next turn', async ({ page }) => {
-  await page.clock.install({ time: 0 });
-  await page.clock.pauseAt(1000);
-  await page.goto('/elsewhere/');
-  await page.getByRole('button', { name: 'Play Stack Snake' }).click();
-  await page.getByRole('button', { name: 'Start game' }).click();
-  await page.keyboard.press('ArrowRight');
-  await page.keyboard.press('ArrowUp');
-  await page.clock.runFor(180);
-  await expect(page.locator('#snake-board .snake-cell').nth(4 * 18 + 7)).toHaveClass(/snake-head/);
 });

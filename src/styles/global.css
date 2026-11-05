@@ -1,19 +1,40 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/dm-sans';
-@import '@fontsource/instrument-serif/latin-400.css';
+@import '@fontsource-variable/schibsted-grotesk';
 
 @theme {
-  --font-sans: 'DM Sans Variable', sans-serif;
-  --font-display: 'Instrument Serif', Georgia, serif;
-  --color-ink: #e8e6e1;
-  --color-muted: #8d9297;
-  --color-paper: #0f1214;
+  --font-sans: 'Schibsted Grotesk Variable', system-ui, sans-serif;
+  --color-ink: #15171a;
+  --color-muted: #5e656c;
+  --color-rule: #d7dcda;
+  --color-paper: #f4f6f5;
+  --color-sunk: #e8ecea;
+  /* Green means "passed": wins and links only. */
+  --color-pass: #17804a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-ink: #e9ece9;
+    --color-muted: #969d9a;
+    --color-rule: #2e3432;
+    --color-paper: #171a19;
+    --color-sunk: #202523;
+    --color-pass: #5ccf8e;
+  }
+}
+
+/* The one loud thing: heavy, tight, large. */
+@utility display {
+  font-size: clamp(3rem, 9vw, 5.25rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
 }
 
 @layer base {
-  html { color-scheme: dark; }
+  html { color-scheme: light dark; }
   body { @apply m-0 bg-paper font-sans text-ink antialiased; }
   a, button { -webkit-tap-highlight-color: transparent; }
-  a, button { @apply focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-ink; }
-  ::selection { background: #2a3a3d; color: #e8e6e1; }
+  a, button, summary { @apply focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pass; }
+  ::selection { background: var(--color-pass); color: var(--color-paper); }
 }

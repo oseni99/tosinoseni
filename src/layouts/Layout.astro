@@ -28,7 +28,8 @@ const person = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#0f1214" />
+    <meta name="theme-color" content="#f4f6f5" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#171a19" media="(prefers-color-scheme: dark)" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -49,17 +50,17 @@ const person = {
   </head>
   <body class="min-h-svh">
     <a href="#main" class="sr-only bg-paper px-4 py-2 focus:not-sr-only focus:fixed focus:left-6 focus:top-5 focus:z-50">Skip to content</a>
-    <header class="mx-auto flex max-w-5xl items-center justify-between px-7 py-8 sm:px-12 sm:py-10">
-      <a href="/" aria-label="Tosin Oseni, home" class="-my-2 py-2 text-xs transition-opacity hover:opacity-60">Tosin Oseni</a>
-      <nav aria-label="Main navigation" class="flex gap-7 text-xs">
-        <a href="/" aria-current={!elsewhere ? 'page' : undefined} class:list={['-my-2 py-2 transition-colors hover:text-ink', elsewhere ? 'text-muted' : 'text-ink']}>home</a>
-        <a href="/elsewhere/" aria-current={elsewhere ? 'page' : undefined} class:list={['-my-2 py-2 transition-colors hover:text-ink', elsewhere ? 'text-ink' : 'text-muted']}>elsewhere</a>
+    <header class="mx-auto flex max-w-3xl items-center justify-between px-6 py-6 sm:px-10 sm:py-8">
+      <a href="/" aria-label="Tosin Oseni, home" class="-my-2 py-2 text-sm font-semibold">Tosin Oseni</a>
+      <nav aria-label="Main navigation" class="flex gap-6 text-sm">
+        <a href="/" aria-current={!elsewhere ? 'page' : undefined} class:list={['-my-2 py-2 transition-colors hover:text-ink', elsewhere ? 'text-muted' : 'text-ink underline decoration-pass decoration-2 underline-offset-[6px]']}>home</a>
+        <a href="/elsewhere/" aria-current={elsewhere ? 'page' : undefined} class:list={['-my-2 py-2 transition-colors hover:text-ink', elsewhere ? 'text-ink underline decoration-pass decoration-2 underline-offset-[6px]' : 'text-muted']}>elsewhere</a>
       </nav>
     </header>
-    <main id="main" class="mx-auto w-full max-w-[640px] px-7 pb-16 pt-14 sm:px-10 sm:pt-20" tabindex="-1">
+    <main id="main" class="mx-auto w-full max-w-3xl px-6 pb-12 pt-12 sm:px-10 sm:pt-20" tabindex="-1">
       <slot />
-      <footer class="mt-10 sm:mt-12">
-        <div class="flex flex-wrap gap-x-7 gap-y-0 text-xs text-muted">
+      <footer class="mt-20 border-t border-rule pt-4">
+        <div class="flex flex-wrap gap-x-6 text-sm text-muted">
           <a href={`mailto:${profile.email}`} class="py-2.5 transition-colors hover:text-ink">Email</a>
           <a href={profile.github} class="py-2.5 transition-colors hover:text-ink">GitHub</a>
           <a href={profile.linkedin} class="py-2.5 transition-colors hover:text-ink">LinkedIn</a>
